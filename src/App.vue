@@ -4,6 +4,7 @@
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
       <home />
+      <h1>121212</h1>
     </div>
     <!-- <router-view /> -->
   </div>
