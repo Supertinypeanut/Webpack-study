@@ -4,7 +4,7 @@
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
       <home />
-      <h1>121212</h1>
+      <h1>1212182</h1>
     </div>
     <!-- <router-view /> -->
   </div>
@@ -38,5 +38,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+h1 {
+  color: #4537c0;
 }
 </style>

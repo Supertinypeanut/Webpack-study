@@ -3,7 +3,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RemoveAnnotationPlugin = require('./remove-annotate-plugin')
 const { VueLoaderPlugin }  = require('vue-loader')
-// const copyWebpackPlugin  = require('copy-webpack-plugin')
+const webpack = require('webpack')
+const copyWebpackPlugin  = require('copy-webpack-plugin')
 /**
  * @type {import('webpack').Configuration}
 */
@@ -13,7 +14,6 @@ const config = {
     output: {
         path: path.join(__dirname, 'dist')
     },
-    
     module: {
         rules: [
             {
@@ -46,9 +46,10 @@ const config = {
         }),
 
         new RemoveAnnotationPlugin(),
-        // new copyWebpackPlugin({
-        //     patterns: [{ from: 'public', to: '' }]
-        // })
+        new copyWebpackPlugin({
+            patterns: [{ from: './src/assets', to: 'assets' }]
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         // contentBase: path.join(__dirname, 'dist'),
@@ -63,7 +64,11 @@ const config = {
               },
               changeOrigin: true // 确保请求 GitHub 的主机名就是：api.github.com
             }
-          }
+        },
+            // 开启 HMR 特性，如果资源不支持 HMR 会 fallback 到 live reloading
+    hot: true
+    // 只使用 HMR，不会 fallback 到 live reloading
+    // hotOnly: true
     },
     devtool: '#cheap-module-eval-source-map',
 }
