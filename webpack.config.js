@@ -65,12 +65,23 @@ const config = {
               changeOrigin: true // 确保请求 GitHub 的主机名就是：api.github.com
             }
         },
-            // 开启 HMR 特性，如果资源不支持 HMR 会 fallback 到 live reloading
-    hot: true
-    // 只使用 HMR，不会 fallback 到 live reloading
-    // hotOnly: true
+        // 开启 HMR 特性，如果资源不支持 HMR 会 fallback 到 live reloading
+        hot: true
+        // 只使用 HMR，不会 fallback 到 live reloading
+        // hotOnly: true
     },
     devtool: '#cheap-module-eval-source-map',
+    optimization: {
+        // 使用导出
+        usedExports: true,
+        // 压缩代码
+        minimize: true,
+        // 尽可能将模块合并到一个函数
+        concatenateModules: true,
+        // 模块副作用移除
+        sideEffects: true,
+    }
+    
 }
 
 module.exports = config
