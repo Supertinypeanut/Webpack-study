@@ -64,7 +64,8 @@ const config = {
               changeOrigin: true // 确保请求 GitHub 的主机名就是：api.github.com
             }
           }
-      }
+    },
+    devtool: '#cheap-module-eval-source-map',
 }
 
 module.exports = config
