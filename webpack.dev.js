@@ -1,11 +1,18 @@
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
-const webpack = require('webpack')
 
 module.exports = merge(common, {
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ],
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            'css-loader'
+          ]
+        }
+      ]
+    },
     devServer: {
         // contentBase: path.join(__dirname, 'dist'),
         compress: true,
@@ -25,5 +32,5 @@ module.exports = merge(common, {
         // 只使用 HMR，不会 fallback 到 live reloading
         // hotOnly: true
     },
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'cheap-module-eval-source-map',
 })

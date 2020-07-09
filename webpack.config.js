@@ -61,7 +61,11 @@ const config = {
         new copyWebpackPlugin({
             patterns: [{ from: './src/assets', to: 'assets' },{ from: './public/favicon.ico', to: '' }]
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        // 定义项目变量值
+        new webpack.DefinePlugin({
+            API_BASE_URL: JSON.stringify('https://api.example.com')
+        })
     ],
     devServer: {
         // contentBase: path.join(__dirname, 'dist'),
