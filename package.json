@@ -11,16 +11,17 @@
     "vue-loader": "^16.0.0-alpha.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.0.8"
   },
   "scripts": {
-    "build": "webpack --env=production",
+    "build": "webpack --env=production --config webpack.prod.js",
     "serve": "webpack-dev-server --env=development",
-    "dev-build": "webpack --env=development"
+    "dev-build": "webpack --env=development --config webpack.dev.js"
   },
   "dependencies": {
     "jquery": "^3.5.1",
     "vue": "^3.0.0-beta.19"
   },
-  "sideEffectes": false 
+  "sideEffectes": false
 }
