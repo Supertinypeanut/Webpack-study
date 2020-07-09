@@ -3,17 +3,21 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RemoveAnnotationPlugin = require('./remove-annotate-plugin')
 const { VueLoaderPlugin }  = require('vue-loader')
-// const copyWebpackPlugin  = require('copy-webpack-plugin')
+const webpack = require('webpack')
+const copyWebpackPlugin  = require('copy-webpack-plugin')
 /**
  * @type {import('webpack').Configuration}
 */
 const config = {
     mode: 'none',
-    entry: './src/main.js',
-    output: {
-        path: path.join(__dirname, 'dist')
+    entry: {
+        main: './src/main.js',
+        index: './src/index.js'
     },
-    
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: '[name].bundle.js', // [name] 是入口名称
+    },
     module: {
         rules: [
             {
@@ -41,14 +45,23 @@ const config = {
         new VueLoaderPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'DevServer&Proxy',
-            template: 'public/index.html'
+            title: 'index',
+            template: 'public/index.html',
+            filename: 'index.html',
+            chunks: ['index'], // 指定使用 index.bundle.js
+        }),
+        new HtmlWebpackPlugin({
+            title: 'main',
+            template: 'public/main.html',
+            filename: 'main.html',
+            chunks: ['main'] // 指定使用 main.bundle.js
         }),
 
         new RemoveAnnotationPlugin(),
-        // new copyWebpackPlugin({
-        //     patterns: [{ from: 'public', to: '' }]
-        // })
+        new copyWebpackPlugin({
+            patterns: [{ from: './src/assets', to: 'assets' },{ from: './public/favicon.ico', to: '' }]
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         // contentBase: path.join(__dirname, 'dist'),
@@ -63,8 +76,28 @@ const config = {
               },
               changeOrigin: true // 确保请求 GitHub 的主机名就是：api.github.com
             }
-          }
-      }
+        },
+        // 开启 HMR 特性，如果资源不支持 HMR 会 fallback 到 live reloading
+        hot: true
+        // 只使用 HMR，不会 fallback 到 live reloading
+        // hotOnly: true
+    },
+    devtool: '#cheap-module-eval-source-map',
+    optimization: {
+        // 使用导出
+        usedExports: true,
+        // 压缩代码
+        minimize: true,
+        // 尽可能将模块合并到一个函数
+        concatenateModules: true,
+        // 模块副作用移除
+        sideEffects: true,
+        splitChunks: {
+            // 自动提取所有公共模块到单独 bundle
+            chunks: 'all'
+        }
+    }
+    
 }
 
 module.exports = config
