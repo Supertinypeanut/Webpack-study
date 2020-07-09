@@ -14,7 +14,9 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "build": "webpack --mode none"
+    "build": "webpack --env=production",
+    "serve": "webpack-dev-server --env=development",
+    "dev-build": "webpack --env=development"
   },
   "dependencies": {
     "jquery": "^3.5.1",

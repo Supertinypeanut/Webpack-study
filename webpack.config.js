@@ -100,4 +100,17 @@ const config = {
     
 }
 
-module.exports = config
+module.exports = (env, argv) => {
+    // console.log(env, argv)
+    if (env === 'development') {
+      // 为 config 添加开发模式下的特殊配置
+      config.mode = 'development'
+      config.devtool = 'cheap-eval-module-source-map'
+    } else if (env === 'production') {
+      // 为 config 添加生产模式下的特殊配置
+      config.mode = 'production'
+      config.devtool = 'none'
+    }
+    
+    return config
+}
