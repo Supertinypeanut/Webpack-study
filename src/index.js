@@ -1,3 +1,10 @@
-import md from './md.md'
+import { createApp } from "vue";
+import App from "./App.vue";
+import a from "./index"
 
-// console.log(md)
+module.hot.accept('./index.js', ()=> {
+  console.log('更新了')
+})
+
+createApp(App)
+  .mount("#app");

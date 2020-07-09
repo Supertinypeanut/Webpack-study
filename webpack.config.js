@@ -10,9 +10,13 @@ const copyWebpackPlugin  = require('copy-webpack-plugin')
 */
 const config = {
     mode: 'none',
-    entry: './src/main.js',
+    entry: {
+        main: './src/main.js',
+        index: './src/index.js'
+    },
     output: {
-        path: path.join(__dirname, 'dist')
+        path: path.join(__dirname, 'dist'),
+        filename: '[name].bundle.js', // [name] 是入口名称
     },
     module: {
         rules: [
@@ -41,13 +45,21 @@ const config = {
         new VueLoaderPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'DevServer&Proxy',
-            template: 'public/index.html'
+            title: 'index',
+            template: 'public/index.html',
+            filename: 'index.html',
+            chunks: ['index'], // 指定使用 index.bundle.js
+        }),
+        new HtmlWebpackPlugin({
+            title: 'main',
+            template: 'public/main.html',
+            filename: 'main.html',
+            chunks: ['main'] // 指定使用 main.bundle.js
         }),
 
         new RemoveAnnotationPlugin(),
         new copyWebpackPlugin({
-            patterns: [{ from: './src/assets', to: 'assets' }]
+            patterns: [{ from: './src/assets', to: 'assets' },{ from: './public/favicon.ico', to: '' }]
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
@@ -80,6 +92,10 @@ const config = {
         concatenateModules: true,
         // 模块副作用移除
         sideEffects: true,
+        splitChunks: {
+            // 自动提取所有公共模块到单独 bundle
+            chunks: 'all'
+        }
     }
     
 }

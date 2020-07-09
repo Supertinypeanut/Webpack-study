@@ -1,12 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
       <home />
-      <h1>1212182</h1>
+      <input type="button" @click="onToggle">
     </div>
-    <!-- <router-view /> -->
   </div>
 </template>
 <script>
@@ -15,7 +12,25 @@ import Home from './views/Home.vue'
 export default {
   components: {
     Home,
-  }
+  },
+  data() {
+    return {
+      isShow: false,
+    }
+  },
+  methods: {
+    onToggle() {
+      this.isShow = !this.isShow
+      if (this.isShow) {
+        // 魔法注释，可以给打包后的js文件取名
+        import(/* webpackChunkName: 'indexVue' */'./components/index.vue')
+          .then(({default: data}) => console.log(data))
+      } else {
+        import(/* webpackChunkName: 'mainVue' */'./components/main.vue')
+          .then(({default: data}) => console.log(data))
+      }
+    }
+  },
 }
 </script>
 <style>
