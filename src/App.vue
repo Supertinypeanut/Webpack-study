@@ -55,6 +55,6 @@ export default {
   color: #42b983;
 }
 h1 {
-  color: #4537c0;
+  color: #54e960;
 }
 </style>
